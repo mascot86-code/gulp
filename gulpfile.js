@@ -10,6 +10,10 @@ gulp.task("sass", () => {
   return gulp.src("scss/*.scss").pipe(sass()).pipe(gulp.dest("css"));
 });
 
+gulp.task("html", () => {
+  return gulp.src("*.html").pipe(gulp.dest("build"));
+});
+
 gulp.task("min", () => {
   return gulp
     .src("scss/*.scss")
@@ -24,14 +28,15 @@ gulp.task("pug", () => {
 });
 
 gulp.task("imgminify", () => {
-  return gulp
-    .src("img/**/*")
-    .pipe(imgminify())
-    .pipe(gulp.dest("build/img"));
+  return gulp.src("img/**/*").pipe(imgminify()).pipe(gulp.dest("build/img"));
 });
 
 gulp.task("sass-watch", () => {
   gulp.watch("scss/**/*.scss", parallel("sass"));
+});
+
+gulp.task("html-watch", () => {
+  gulp.watch("*.html", parallel("html"));
 });
 
 gulp.task("min-watch", () => {
@@ -44,5 +49,14 @@ gulp.task("pug-watch", () => {
 
 gulp.task(
   "default",
-  parallel("sass", "sass-watch", "pug-watch", "min", "min-watch", "imgminify"),
+  parallel(
+    "sass",
+    "sass-watch",
+    "html",
+    "html-watch",
+    "pug-watch",
+    "min",
+    "min-watch",
+    "imgminify",
+  ),
 );
